@@ -21,3 +21,9 @@ Using your own implementation follow next steps
 3. if file was downloaded - if it is an image - show it on center of page, else download file to your local machine
 
 PS: remember about SOLID and other principes - KISS, DRY(google it if you don't know)
+
+*Extra task
+
+ 1. In file ```server.js``` create edpoint ```/list```, read list of files in dir(see - [fs.readdir](https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback) )
+ and send to webApp like endpoint ```ping``` but use method ```GET```.
+ After, add logic to your app for loading list of exist file on server
