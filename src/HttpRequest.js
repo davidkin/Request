@@ -1,5 +1,4 @@
 class HttpRequest {
-
   // get request options({ baseUrl, headers })
   constructor({ baseUrl, headers }) {
     this.baseUrl = baseUrl;
@@ -7,18 +6,42 @@ class HttpRequest {
   }
 
   get(url, config) {
+    const finalUrl = this.baseUrl + url;
+    const { headers, params, mode, cache } = config;
 
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+
+      xhr.open('GET', finalUrl, true);
+      xhr.send();
+
+      xhr.onreadystatechange = () => {
+        if (xhr.status !== 200) {
+          return reject(xhr.status);
+        }
+        resolve(xhr.responseText);
+      };
+    });
   }
 
-  post(url, config) {
-
-  }
+  // post(url, config) {
+  //   return null;
+  // }
 }
 
 /*
 const reuest = new HttpRequest({
-  baseUrl: 'http://localhost:3000',
+  baseUrl: 'http://localhost:8000'
 });
+
+reuest.get('/user/12345', { headers: { contentType: undefined } })
+  .then(response => {
+    console.log(response);
+  })
+  .catch(e => {
+    console.log(e);
+  });
+
 
 reuest.get('/user/12345', { onDownloadProgress, headers: {contentType: undefined} })
   .then(response => {
@@ -42,13 +65,13 @@ config = {
   // it is passed to then/catch
   transformResponse: [function (data) {
     // Do whatever you want to transform the data
- 
+
     return data;
   }],
- 
+
   // `headers` are custom headers to be sent
   headers: {'X-Requested-With': 'XMLHttpRequest'},
- 
+
   // `params` are the URL parameters to be sent with the request
   // Must be a plain object or a URLSearchParams object
   params: {
@@ -74,7 +97,7 @@ config = {
   onUploadProgress: function (progressEvent) {
     // Do whatever you want with the native progress event
   },
- 
+
   // `onDownloadProgress` allows handling of progress events for downloads
   onDownloadProgress: function (progressEvent) {
     // Do whatever you want with the native progress event
