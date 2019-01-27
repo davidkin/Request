@@ -1,4 +1,5 @@
 /* eslint-disable */
+
 function loadBarProgress(nameOfBar, loaded, total) {
   const progressBar = document.querySelector(`#${nameOfBar}`);
   const progress = Math.floor((loaded / total) * 100);
@@ -27,6 +28,12 @@ function events(xmlRequest, progressEvent) {
   }
 }
 
+function parseImg(binaryImg) {
+  const blob = new Blob([binaryImg], { type: 'image/jpeg' });
+  const imageUrl = URL.createObjectURL(blob);
+
+  return imageUrl;
+}
 
 const request = new HttpRequest({
   baseUrl: 'http://localhost:8000'
@@ -54,6 +61,26 @@ document.getElementById('uploadForm').onsubmit = function(e) {
   })
     .then(response => {
       console.log('---', `Well done - ${response}`);
+    })
+    .catch(e => {
+      console.log(e);
+    });
+};
+
+
+document.getElementById('downloadForm').onsubmit = function(e) {
+  e.preventDefault();
+
+  const dataOfFile = document.querySelector('.file-input').value;
+  const img = document.querySelector('.img');
+
+  request.get(`/files/${dataOfFile}`, {
+    responseType: 'arraybuffer',
+    onDownloadProgress: (xmlRequest, progressEvent) => events(xmlRequest, progressEvent)
+  })
+    .then(response => {
+      console.log(response);
+      img.setAttribute('src', parseImg(response));
     })
     .catch(e => {
       console.log(e);
