@@ -53,6 +53,7 @@ document.getElementById('uploadForm').onsubmit = function(e) {
   // })
 
   const fileName = document.querySelector('.getFile').files[0].name;
+  console.log('---',  fileName);
   document.querySelector('.file-input').value = fileName;
 
   request.post('/upload', {
@@ -75,12 +76,15 @@ document.getElementById('downloadForm').onsubmit = function(e) {
   const img = document.querySelector('.img');
 
   request.get(`/files/${dataOfFile}`, {
-    responseType: 'arraybuffer',
+    responseType: 'blob',
     onDownloadProgress: (xmlRequest, progressEvent) => events(xmlRequest, progressEvent)
   })
     .then(response => {
       console.log(response);
-      img.setAttribute('src', parseImg(response));
+
+      return dataOfFile.split('.')[1] === 'png' || dataOfFile.split('.')[1] === 'JPG' || dataOfFile.split('.')[1] === 'jpeg' 
+        ? img.setAttribute('src', parseImg(response))
+        : alert('File downloaded');
     })
     .catch(e => {
       console.log(e);
