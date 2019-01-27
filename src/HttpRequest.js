@@ -56,7 +56,33 @@ class HttpRequest {
   }
 
   post(url, config) {
+    const xhr = new XMLHttpRequest();
 
+    const finalUrl = new URL(this.baseUrl + url);
+    const { transformResponse, headers, data, responseType, onUploadProgress } = config;
+    setHeader(xhr, this.headers);
+
+    return new Promise((resolve, reject) => {
+      xhr.open('POST', finalUrl, true);
+
+      setHeader(xhr, headers);
+
+      if (onUploadProgress) {
+        onUploadProgress(xhr, 'upload');
+      }
+
+      xhr.onload = () => {
+        if (xhr.status !== 200) {
+          return reject(xhr.status);
+        }
+
+        return transformResponse === undefined || !elementsAreFunction(transformResponse)
+          ? resolve(xhr.response)
+          : resolve(transformResponse.reduce((acc, func) => func(acc), xhr.response), null);
+      };
+
+      xhr.send(data);
+    });
   }
 }
 
