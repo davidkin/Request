@@ -42,6 +42,18 @@ function setMethod(XMLobj, url, method, settings) { // eslint-disable-line
   }
 }
 
+function doOnload(XMLobj, transformResponse, resolve, reject) {  // eslint-disable-line
+  if (XMLobj.status !== 200) {
+    return reject(XMLobj.status);
+  }
+
+  if (transformResponse === undefined) {
+    return resolve(XMLobj.response);
+  } else if (elementsAreFunction(transformResponse)) {
+    return resolve(transformResponse.reduce((acc, func) => func(acc), XMLobj.response), null);
+  }
+}
+
 class HttpRequest {
   constructor({ baseUrl, headers }) {
     this.baseUrl = baseUrl;
@@ -59,15 +71,7 @@ class HttpRequest {
       setMethod(xhr, finalUrl, 'GET', config);
 
       xhr.onload = () => {
-        if (xhr.status !== 200) {
-          return reject(xhr.status);
-        }
-
-        if (transformResponse === undefined) {
-          return resolve(xhr.response);
-        } else if (elementsAreFunction(transformResponse)) {
-          return resolve(transformResponse.reduce((acc, func) => func(acc), xhr.response), null);
-        }
+        doOnload(xhr, transformResponse, resolve, reject);
       };
 
       xhr.send();
@@ -85,15 +89,7 @@ class HttpRequest {
       setMethod(xhr, finalUrl, 'POST', config);
 
       xhr.onload = () => {
-        if (xhr.status !== 200) {
-          return reject(xhr.status);
-        }
-
-        if (transformResponse === undefined) {
-          return resolve(xhr.response);
-        } else if (elementsAreFunction(transformResponse)) {
-          return resolve(transformResponse.reduce((acc, func) => func(acc), xhr.response), null);
-        }
+        doOnload(xhr, transformResponse, resolve, reject);
       };
 
       xhr.send(data);
