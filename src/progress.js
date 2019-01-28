@@ -2,8 +2,15 @@
 
 function loadBarProgress(nameOfBar, loaded, total) {
   const progressBar = document.querySelector(`#${nameOfBar}`);
-  const progress = Math.floor((loaded / total) * 100);
-  progressBar.style.width = `${progress}%`;
+  if (loaded === total) {
+    progressBar.style.opacity = `1`;
+    progressBar.style.width = `100%`;
+
+    setTimeout(() => {
+      progressBar.style.opacity = `0`;
+      progressBar.style.width = `100%`;
+    }, 1000)
+  }
 }
 
 if (document.querySelector('.file-input').value) {
