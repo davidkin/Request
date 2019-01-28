@@ -31,11 +31,11 @@ function setMethod(XMLobj, url, method, settings) { // eslint-disable-line
   } = settings;
 
   XMLobj.open(method, url, true);
-  XMLobj.responseType = responseType;
 
   setHeader(XMLobj, headers);
 
   if (onDownloadProgress && method === 'GET') {
+    XMLobj.responseType = responseType;
     onDownloadProgress(XMLobj, 'download');
   } else if (onUploadProgress && method === 'POST') {
     onUploadProgress(XMLobj, 'upload');
