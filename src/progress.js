@@ -6,10 +6,13 @@ function loadBarProgress(nameOfBar, loaded, total) {
   progressBar.style.width = `${progress}%`;
 }
 
+if (document.querySelector('.file-input').value) {
+  document.querySelector('.download-button').disabled = true;
+}
+
 document.querySelector('.getFile').onchange = function(e) {
   document.querySelector('.js-fileName').innerHTML = e.target.value.replace(/.*\\/, '');
 };
-
 
 const request = new HttpRequest({
   baseUrl: 'http://localhost:8000'
@@ -32,7 +35,6 @@ document.getElementById('downloadForm').onsubmit = function(e) {
 
   downloadFromServer(request);
 };
-
 
 // function drawFilesList(files) {
 //   const list = document.getElementById('files_list');

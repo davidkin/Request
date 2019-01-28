@@ -32,6 +32,7 @@ function getImgUrl(binaryImg) {
 function uploadToServer(request, form) {
   const fileName = document.querySelector('.getFile').files[0].name;
   document.querySelector('.file-input').value = fileName;
+  document.querySelector('.download-button').disabled = false;
 
   request.post('/upload', {
     data: form,
