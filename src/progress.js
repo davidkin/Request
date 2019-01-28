@@ -6,34 +6,10 @@ function loadBarProgress(nameOfBar, loaded, total) {
   progressBar.style.width = `${progress}%`;
 }
 
-function events(xmlRequest, progressEvent) {
-  if (progressEvent === 'upload') {
-    xmlRequest.upload.onprogress = event => {
-      loadBarProgress('upload-progress-bar', event.loaded, event.total);
-      console.log('---', `Upload to the server ${event.loaded} bytes from ${event.total}`);
-    };
+document.querySelector('.getFile').onchange = function(e) {
+  document.querySelector('.js-fileName').innerHTML = e.target.value.replace(/.*\\/, '');
+};
 
-    xmlRequest.upload.onload = () => {
-      console.log('---', 'Data is fully uploaded to the server');
-    };
-
-    xmlRequest.upload.onerror = () => {
-      console.log('---', 'An error occurred while loading data to the server!');
-    };
-  } else if (progressEvent === 'download') {
-    xmlRequest.onprogress = event => {
-      loadBarProgress('download-progress-bar', event.loaded, event.total);
-      console.log(`Received from ${event.loaded} server bytes from ${event.total} `);
-    };
-  }
-}
-
-function getImgUrl(binaryImg) {
-  const blob = new Blob([binaryImg], { type: 'image/jpeg' });
-  const imageUrl = URL.createObjectURL(blob);
-
-  return imageUrl;
-}
 
 const request = new HttpRequest({
   baseUrl: 'http://localhost:8000'
@@ -44,44 +20,17 @@ document.getElementById('uploadForm').onsubmit = function(e) {
 
   const form = new FormData();
   const myHeaders = new Headers();
+
   myHeaders.append('Content-Type', 'multipart/form-data');
   form.append('sampleFile', e.target.sampleFile.files[0]);
 
-  const fileName = document.querySelector('.getFile').files[0].name;
-  document.querySelector('.file-input').value = fileName;
-
-  request.post('/upload', {
-    data: form,
-    onUploadProgress: (xmlRequest, progressEvent) => events(xmlRequest, progressEvent)
-  })
-    .then(response => {
-      console.log('---', `Well done - ${response}`);
-    })
-    .catch(e => {
-      console.log(e);
-    });
+  uploadToServer(request, form);
 };
 
 document.getElementById('downloadForm').onsubmit = function(e) {
   e.preventDefault();
 
-  const dataOfFile = document.querySelector('.file-input').value;
-  const img = document.querySelector('.img');
-  const isImg = dataOfFile.split('.')[1] === 'png' || dataOfFile.split('.')[1] === 'JPG' 
-            || dataOfFile.split('.')[1] === 'jpeg' || dataOfFile.split('.')[1] === 'jpg';
-
-  request.get(`/files/${dataOfFile}`, {
-    responseType: 'blob',
-    onDownloadProgress: (xmlRequest, progressEvent) => events(xmlRequest, progressEvent)
-  })
-    .then(response => {
-      console.log(response);
-
-      return isImg ? img.setAttribute('src', getImgUrl(response)) : downloadFile(response, dataOfFile);
-    })
-    .catch(e => {
-      console.log(e);
-    });
+  downloadFromServer(request);
 };
 
 
