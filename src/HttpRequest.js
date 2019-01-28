@@ -14,7 +14,13 @@ function createURL(baseUrl, url, params) {
   return finalUrl;
 }
 
-const elementsAreFunction = arrayOfFunction => arrayOfFunction.every(value => typeof value === 'function');
+const elementsAreFunction = arrayOfFunction => arrayOfFunction.every(value => {
+  if (typeof value === 'function') {
+    return true;
+  } else {
+    throw new TypeError(`${value} isn't a function`);
+  }
+});
 
 function setMethod(XMLobj, url, method, settings) { // eslint-disable-line
   const {
