@@ -5,7 +5,7 @@ function setHeader(download, headers) {
 }
 
 function createURL(baseUrl, url, params) {
-  const finalUrl = new URL(baseUrl + url);
+  const finalUrl = new URL(url, baseUrl);
 
   for (const key in params) {
     finalUrl.searchParams.set(key, params[key]);
