@@ -11,7 +11,7 @@ app.use('/HttpRequest.js', express.static(`${__dirname}/src/HttpRequest.js`));
 app.use('/files', express.static(`${__dirname}/uploads`));
 
 // default options
-// app.use(fileUpload());
+app.use(fileUpload());
 
 app.post('/ping', function(req, res) {
   res.send('pong');
