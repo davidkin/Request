@@ -46,11 +46,6 @@ document.getElementById('uploadForm').onsubmit = function(e) {
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'multipart/form-data');
   form.append('sampleFile', e.target.sampleFile.files[0]);
-  // /files/__filename
-  // fetch('http://localhost:8000/upload',{
-  //   method: "POST",
-  //   body: form
-  // })
 
   const fileName = document.querySelector('.getFile').files[0].name;
   document.querySelector('.file-input').value = fileName;
@@ -66,7 +61,6 @@ document.getElementById('uploadForm').onsubmit = function(e) {
       console.log(e);
     });
 };
-
 
 document.getElementById('downloadForm').onsubmit = function(e) {
   e.preventDefault();
