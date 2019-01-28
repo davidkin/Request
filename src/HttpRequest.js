@@ -14,8 +14,33 @@ function createURL(baseUrl, url, params) {
   return finalUrl;
 }
 
-const elementsAreFunction = arrayOfFunction => arrayOfFunction.every(value => typeof value === 'function');
+const elementsAreFunction = arrayOfFunction => arrayOfFunction.every(value => {
+  if (typeof value === 'function') {
+    return true;
+  } else {
+    throw new TypeError(`${value} isn't a function`);
+  }
+});
 
+function setMethod(XMLobj, url, method, settings) { // eslint-disable-line
+  const {
+    headers,
+    responseType,
+    onDownloadProgress,
+    onUploadProgress
+  } = settings;
+
+  XMLobj.open(method, url, true);
+  XMLobj.responseType = responseType;
+
+  setHeader(XMLobj, headers);
+
+  if (onDownloadProgress && method === 'GET') {
+    onDownloadProgress(XMLobj, 'download');
+  } else if (onUploadProgress && method === 'POST') {
+    onUploadProgress(XMLobj, 'upload');
+  }
+}
 
 class HttpRequest {
   constructor({ baseUrl, headers }) {
@@ -25,30 +50,24 @@ class HttpRequest {
 
   get(url, config) {
     const xhr = new XMLHttpRequest();
-
-    const { transformResponse, headers, params, responseType, onDownloadProgress } = config;
+    const { transformResponse, params } = config;
     const finalUrl = createURL(this.baseUrl, url, params);
 
     setHeader(xhr, this.headers);
 
     return new Promise((resolve, reject) => {
-      xhr.open('GET', finalUrl, true);
-      xhr.responseType = responseType;
-
-      setHeader(xhr, headers);
-
-      if (onDownloadProgress) {
-        onDownloadProgress(xhr, 'download');
-      }
+      setMethod(xhr, finalUrl, 'GET', config);
 
       xhr.onload = () => {
         if (xhr.status !== 200) {
           return reject(xhr.status);
         }
 
-        return transformResponse === undefined || !elementsAreFunction(transformResponse)
-          ? resolve(xhr.response)
-          : resolve(transformResponse.reduce((acc, func) => func(acc), xhr.response), null);
+        if (transformResponse === undefined) {
+          return resolve(xhr.response);
+        } else if (elementsAreFunction(transformResponse)) {
+          return resolve(transformResponse.reduce((acc, func) => func(acc), xhr.response), null);
+        }
       };
 
       xhr.send();
@@ -57,28 +76,24 @@ class HttpRequest {
 
   post(url, config) {
     const xhr = new XMLHttpRequest();
-
+    const { transformResponse, data } = config;
     const finalUrl = new URL(this.baseUrl + url);
-    const { transformResponse, headers, data, responseType, onUploadProgress } = config;
+
     setHeader(xhr, this.headers);
 
     return new Promise((resolve, reject) => {
-      xhr.open('POST', finalUrl, true);
-
-      setHeader(xhr, headers);
-
-      if (onUploadProgress) {
-        onUploadProgress(xhr, 'upload');
-      }
+      setMethod(xhr, finalUrl, 'POST', config);
 
       xhr.onload = () => {
         if (xhr.status !== 200) {
           return reject(xhr.status);
         }
 
-        return transformResponse === undefined || !elementsAreFunction(transformResponse)
-          ? resolve(xhr.response)
-          : resolve(transformResponse.reduce((acc, func) => func(acc), xhr.response), null);
+        if (transformResponse === undefined) {
+          return resolve(xhr.response);
+        } else if (elementsAreFunction(transformResponse)) {
+          return resolve(transformResponse.reduce((acc, func) => func(acc), xhr.response), null);
+        }
       };
 
       xhr.send(data);
