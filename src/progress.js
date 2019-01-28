@@ -79,7 +79,6 @@ document.getElementById('uploadForm').onsubmit = function(e) {
   })
     .then(response => {
       console.log('---', `Well done - ${response}`);
-      clearBarProgess('upload-progress-bar');
     })
     .catch(e => {
       console.log(e);
