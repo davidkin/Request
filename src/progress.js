@@ -6,11 +6,6 @@ function loadBarProgress(nameOfBar, loaded, total) {
   progressBar.style.width = `${progress}%`;
 }
 
-function clearBarProgess (nameOfBar) {
-  const progressBar = document.querySelector(`#${nameOfBar}`);
-  progressBar.style.width = `${0}%`;
-}
-
 function events(xmlRequest, progressEvent) {
   if (progressEvent === 'upload') {
     xmlRequest.upload.onprogress = event => {
@@ -33,7 +28,7 @@ function events(xmlRequest, progressEvent) {
   }
 }
 
-function parseImg(binaryImg) {
+function getImgUrl(binaryImg) {
   const blob = new Blob([binaryImg], { type: 'image/jpeg' });
   const imageUrl = URL.createObjectURL(blob);
 
@@ -101,7 +96,7 @@ document.getElementById('downloadForm').onsubmit = function(e) {
     .then(response => {
       console.log(response);
 
-      return isImg ? img.setAttribute('src', parseImg(response)) : downloadFile(response, dataOfFile);
+      return isImg ? img.setAttribute('src', getImgUrl(response)) : downloadFile(response, dataOfFile);
     })
     .catch(e => {
       console.log(e);
