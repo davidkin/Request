@@ -5,9 +5,10 @@ function loadBarProgress(nameOfBar, loaded, total) {
   const title = document.querySelector('title');
 
   title.innerHTML = `Document  ${Math.floor((loaded / total) * 100)}%`;
-  progressBar.style.width = `${Math.floor((loaded / total) * 100)}%`;
 
   if (loaded === total) {
+    progressBar.style.opacity = '1';
+    progressBar.style.width = '100%'
     setTimeout(() => {
       title.innerHTML = 'Document';
       progressBar.style.opacity = '0';
