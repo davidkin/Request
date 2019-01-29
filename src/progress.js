@@ -13,8 +13,12 @@ function loadBarProgress(nameOfBar, loaded, total) {
   }
 }
 
-if (document.querySelector('.file-input').value) {
-  document.querySelector('.download-button').disabled = true;
+document.querySelector('.file-input').onchange = function() {
+  if (!document.querySelector('.file-input').value) {
+    document.querySelector('.download-button').disabled = true;
+  } else if (!!document.querySelector('.file-input').value) {
+    document.querySelector('.download-button').disabled = false;
+  }
 }
 
 document.querySelector('.getFile').onchange = function(e) {
