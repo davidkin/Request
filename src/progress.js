@@ -4,13 +4,13 @@ function loadBarProgress(nameOfBar, loaded, total) {
   const progressBar = document.querySelector(`#${nameOfBar}`);
   const title = document.querySelector('title');
 
-  title.innerHTML = `Document  ${Math.floor((loaded / total) * 100)}%`;
+  title.innerHTML = `Request  ${Math.floor((loaded / total) * 100)}%`;
 
   if (loaded === total) {
     progressBar.style.opacity = '1';
     progressBar.style.width = '100%'
     setTimeout(() => {
-      title.innerHTML = 'Document';
+      title.innerHTML = 'Request';
       progressBar.style.opacity = '0';
       progressBar.style.width = '0%';
     }, 1000);
