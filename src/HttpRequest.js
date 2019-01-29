@@ -40,15 +40,17 @@ function setSettingsForSend(XMLobj, method, settings) {
   }
 }
 
-function doOnload(XMLobj, transformResponse, resolve, reject) {  // eslint-disable-line
-  if (XMLobj.status !== 200) {
-    return reject(XMLobj.status);
+function doOnload(onloadParameters) {
+  const { xhr, transformResponse, resolve, reject } = onloadParameters;
+
+  if (xhr.status !== 200) {
+    return reject(xhr.status);
   }
 
   if (transformResponse === undefined) {
-    return resolve(XMLobj.response);
+    return resolve(xhr.response);
   } else if (elementsAreFunction(transformResponse)) {
-    return resolve(transformResponse.reduce((acc, func) => func(acc), XMLobj.response), null);
+    return resolve(transformResponse.reduce((acc, func) => func(acc), xhr.response), null);
   }
 }
 
@@ -70,7 +72,7 @@ class HttpRequest {
       setSettingsForSend(xhr, 'GET', config);
 
       xhr.onload = () => {
-        doOnload(xhr, transformResponse, resolve, reject);
+        doOnload({ xhr, transformResponse, resolve, reject });
       };
 
       xhr.send();
@@ -89,7 +91,7 @@ class HttpRequest {
       setSettingsForSend(xhr, 'POST', config);
 
       xhr.onload = () => {
-        doOnload(xhr, transformResponse, resolve, reject);
+        doOnload({ xhr, transformResponse, resolve, reject });
       };
 
       xhr.send(data);
