@@ -22,7 +22,7 @@ const elementsAreFunction = arrayOfFunction => arrayOfFunction.every(value => {
   }
 });
 
-function setSettingsForSend(XMLobj, method, settings) { // eslint-disable-line
+function setSettingsForSend(XMLobj, method, settings) {
   const {
     headers,
     responseType,
@@ -80,7 +80,7 @@ class HttpRequest {
   post(url, config) {
     const xhr = new XMLHttpRequest();
     const { transformResponse, data } = config;
-    const finalUrl = new URL(this.baseUrl + url);
+    const finalUrl = createURL(this.baseUrl, url);
 
     setHeader(xhr, this.headers);
     xhr.open('POST', finalUrl, true);
