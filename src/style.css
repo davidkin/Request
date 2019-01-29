@@ -134,6 +134,7 @@ form {
   border-radius: 5px;
   padding: 10px 10px 15px;
   background: linear-gradient(180deg, #fe2d29, #a30739);
+  border-top: 15px solid #323232;
 }
 
 .list {
