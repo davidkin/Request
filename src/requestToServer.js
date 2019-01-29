@@ -46,11 +46,23 @@ function uploadToServer(request, form) {
     });
 }
 
+function downloadFile(blob, fileName) {
+  const a = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+
+  document.body.appendChild(a);
+  a.style = 'display: none';
+  a.href = url;
+  a.download = fileName;
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+
 function downloadFromServer(request) {
   const dataOfFile = document.querySelector('.file-input').value;
   const img = document.querySelector('.img');
-  const isImg = dataOfFile.split('.')[1] === 'png' || dataOfFile.split('.')[1] === 'JPG'
-            || dataOfFile.split('.')[1] === 'jpeg' || dataOfFile.split('.')[1] === 'jpg';
 
   request.get(`/files/${dataOfFile}`, {
     responseType: 'blob',
@@ -58,8 +70,7 @@ function downloadFromServer(request) {
   })
     .then(response => {
       console.log(response);
-
-      return isImg ? img.setAttribute('src', getImgUrl(response)) : downloadFile(response, dataOfFile);
+      return response.type === "image/jpeg" ? img.setAttribute('src', getImgUrl(response)) : downloadFile(response, dataOfFile);
     })
     .catch(e => {
       console.log(e);
