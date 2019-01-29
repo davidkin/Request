@@ -40,10 +40,10 @@ function showFilesList(data) {
   block.appendChild(list);
 }
 
-document.querySelector('.file-input').onchange = function() {
-  if (!document.querySelector('.file-input').value) {
+document.querySelector('.file-input').oninput = function(e) {
+  if (!e.target.value) {
     document.querySelector('.download-button').disabled = true;
-  } else if (document.querySelector('.file-input').value) {
+  } else {
     document.querySelector('.download-button').disabled = false;
   }
 };
@@ -58,7 +58,7 @@ function dragAndDrop(elem) {
     document.body.appendChild(elem);
     moveAt(e);
 
-    elem.style.zIndex = 1000; // ��� ������� ����������
+    elem.style.zIndex = 1000;
 
     function moveAt(e) {
       elem.style.left = `${e.pageX - shiftX}px`;
@@ -95,7 +95,7 @@ document.querySelector('.getFile').onchange = function(e) {
 
 const request = new HttpRequest({
   baseUrl: 'http://localhost:8000'
-});
+}); 
 
 document.getElementById('uploadForm').onsubmit = function(e) {
   e.preventDefault();
@@ -115,6 +115,7 @@ document.getElementById('downloadForm').onsubmit = function(e) {
 
   downloadFromServer(request);
   document.querySelector('.file-input').value = '';
+  document.querySelector('.download-button').disabled = true;
 };
 
 
