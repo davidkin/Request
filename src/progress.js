@@ -90,8 +90,22 @@ function dragAndDrop(elem) {
   }
 }
 
+function checkForUpload() {
+  const file = document.querySelector('.getFile').files;
+
+  if (file.length > 0) {
+    document.querySelector('.upload-button').disabled = false;
+  } else {
+    document.querySelector('.upload-button').disabled = true;
+  }
+}
+
+checkForUpload();
+
+
 document.querySelector('.getFile').onchange = function(e) {
   document.querySelector('.js-fileName').innerHTML = e.target.value.replace(/.*\\/, '');
+  checkForUpload();
 };
 
 const request = new HttpRequest({
@@ -108,7 +122,11 @@ document.getElementById('uploadForm').onsubmit = function(e) {
   form.append('sampleFile', e.target.sampleFile.files[0]);
 
   uploadToServer(request, form);
+  
+  document.querySelector('.getFile').value = "";
   document.querySelector('.js-fileName').innerHTML = 'Choose a file';
+  document.querySelector('.upload-button').disabled = true;
+  
 };
 
 document.getElementById('downloadForm').onsubmit = function(e) {
