@@ -22,15 +22,13 @@ const elementsAreFunction = arrayOfFunction => arrayOfFunction.every(value => {
   }
 });
 
-function setMethod(XMLobj, url, method, settings) { // eslint-disable-line
+function setSettingsForSend(XMLobj, method, settings) { // eslint-disable-line
   const {
     headers,
     responseType,
     onDownloadProgress,
     onUploadProgress
   } = settings;
-
-  XMLobj.open(method, url, true);
 
   setHeader(XMLobj, headers);
 
@@ -66,9 +64,10 @@ class HttpRequest {
     const finalUrl = createURL(this.baseUrl, url, params);
 
     setHeader(xhr, this.headers);
+    xhr.open('GET', finalUrl, true);
 
     return new Promise((resolve, reject) => {
-      setMethod(xhr, finalUrl, 'GET', config);
+      setSettingsForSend(xhr, 'GET', config);
 
       xhr.onload = () => {
         doOnload(xhr, transformResponse, resolve, reject);
@@ -84,9 +83,10 @@ class HttpRequest {
     const finalUrl = new URL(this.baseUrl + url);
 
     setHeader(xhr, this.headers);
+    xhr.open('POST', finalUrl, true);
 
     return new Promise((resolve, reject) => {
-      setMethod(xhr, finalUrl, 'POST', config);
+      setSettingsForSend(xhr, 'POST', config);
 
       xhr.onload = () => {
         doOnload(xhr, transformResponse, resolve, reject);
