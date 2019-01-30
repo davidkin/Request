@@ -31,8 +31,11 @@ function showFilesList(data) {
 
   data.forEach(element => {
     const listItem = document.createElement('li');
-    const link = document.createElement('span');
+    const link = document.createElement('a');
     link.innerHTML = element;
+    link.style.color = '#fff';
+    link.style.wordWrap = 'break-word';
+    link.setAttribute('href', 'javascript:void(0);');
 
     list.appendChild(listItem);
     listItem.appendChild(link);
@@ -101,7 +104,6 @@ function checkForUpload() {
 }
 
 checkForUpload();
-
 
 document.querySelector('.getFile').onchange = function(e) {
   document.querySelector('.js-fileName').innerHTML = e.target.value.replace(/.*\\/, '');
