@@ -70,9 +70,11 @@ function downloadFromServer(request) {
   })
     .then(response => {
       console.log(response);
+      document.querySelector('.info-text').innerHTML = `File ${dataOfFile} downloaded`;
       return response.type === "image/jpeg" ? img.setAttribute('src', getImgUrl(response)) : downloadFile(response, dataOfFile);
     })
     .catch(e => {
+      document.querySelector('.info-text').innerHTML = e;
       console.log(e);
     });
 }
