@@ -19,16 +19,24 @@ function loadBarProgress(nameOfBar, loaded, total) {
 
 function showFilesList(data) {
   const block = document.querySelector('.show-block');
-  dragAndDrop(block);
+  const showList = document.querySelector('.show-list');
   const list = document.createElement('ul');
+
   list.className = 'list';
 
-  document.querySelector('.show-block').style.display = 'block';
-  document.querySelector('.show-list').innerHTML = 'Close list';
-  document.querySelector('.show-list').style.color = '#de0a4e';
-  document.querySelector('.show-list').style.borderColor = '#de0a4e';
+  block.style.display = 'block';
 
+  showList.innerHTML = 'Close list';
+  showList.style.color = '#de0a4e';
+  showList.style.borderColor = '#de0a4e';
 
+  createListElement(data, list);
+  dragAndDrop(block);
+  
+  block.appendChild(list);
+}
+
+function createListElement (data, list) {
   data.forEach(element => {
     const listItem = document.createElement('li');
     const link = document.createElement('a');
@@ -40,8 +48,6 @@ function showFilesList(data) {
     list.appendChild(listItem);
     listItem.appendChild(link);
   });
-
-  block.appendChild(list);
 }
 
 document.querySelector('.file-input').oninput = function(e) {
