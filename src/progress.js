@@ -141,13 +141,5 @@ document.getElementById('downloadForm').onsubmit = function(e) {
 
 
 document.querySelector('.show-list').addEventListener('click', () => {
-  if (document.querySelector('.show-list').innerHTML === 'Show List') {
-    request.get('/list', {}).then(data => showFilesList(JSON.parse(data)));
-  } else {
-    document.querySelector('.show-block').removeChild(document.querySelector('.list'));
-    document.querySelector('.show-block').style.display = 'none';
-    document.querySelector('.show-list').innerHTML = 'Show List';
-    document.querySelector('.show-list').style.color = '#fff';
-    document.querySelector('.show-list').style.borderColor = '#fff';
-  }
+  getListOfFile(request);
 });

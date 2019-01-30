@@ -40,10 +40,14 @@ function uploadToServer(request, form) {
   })
     .then(response => {
       console.log('---', `Well done - ${response}`);
+      // showFilesList([response]);
     })
     .catch(e => {
       console.log(e);
     });
+
+  // request.get('/list', {}).then(data => showFilesList(JSON.parse(data)));
+    
 }
 
 function downloadFile(blob, fileName) {
@@ -77,4 +81,16 @@ function downloadFromServer(request) {
       document.querySelector('.info-text').innerHTML = e;
       console.log(e);
     });
+}
+
+function getListOfFile(request) {
+  if (document.querySelector('.show-list').innerHTML === 'Show List') {
+    request.get('/list', {}).then(data => showFilesList(JSON.parse(data)));
+  } else {
+    document.querySelector('.show-block').removeChild(document.querySelector('.list'));
+    document.querySelector('.show-block').style.display = 'none';
+    document.querySelector('.show-list').innerHTML = 'Show List';
+    document.querySelector('.show-list').style.color = '#fff';
+    document.querySelector('.show-list').style.borderColor = '#fff';
+  }
 }
