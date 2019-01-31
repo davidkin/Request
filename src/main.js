@@ -29,7 +29,7 @@ document.getElementById('downloadForm').onsubmit = function(e) {
   document.querySelector('.download-button').disabled = true;
 };
 
-document.querySelector('.show-list').click= function (e) {
+document.querySelector('.show-list').onclick= function (e) {
   getListOfFile(request);
 };
 
