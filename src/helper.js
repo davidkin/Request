@@ -39,7 +39,6 @@ function checkForUpload() {
   }
 }
 
-
 function dragAndDrop(elem) {
   elem.onmousedown = function(e) {
     const coords = getCoords(elem);
@@ -80,3 +79,5 @@ function dragAndDrop(elem) {
     };
   }
 }
+
+checkForUpload();

@@ -49,5 +49,3 @@ document.querySelector('.getFile').onchange = function(e) {
 
   checkForUpload();
 };
-
-checkForUpload();
