@@ -1,19 +1,3 @@
-function setHeaders(download, headers) {
-  for (const key in headers) {
-    download.setRequestHeader(key, headers[key]);
-  }
-}
-
-function createURL(baseUrl, url, params) {
-  const finalUrl = new URL(url, baseUrl);
-
-  for (const key in params) {
-    finalUrl.searchParams.set(key, params[key]);
-  }
-
-  return finalUrl;
-}
-
 const elementsAreFunction = arrayOfFunction => arrayOfFunction.every(value => {
   if (typeof value === 'function') {
     return true;
@@ -22,28 +6,26 @@ const elementsAreFunction = arrayOfFunction => arrayOfFunction.every(value => {
   }
 });
 
-// function setSettingsForSend(XMLobj, method, settings) {
-//   const {
-//     headers,
-//     responseType,
-//     onDownloadProgress,
-//     onUploadProgress
-//   } = settings;
-
-//   setHeader(XMLobj, headers);
-
-//   if (onDownloadProgress && method === 'GET') {
-//     XMLobj.responseType = responseType;
-//     onDownloadProgress(XMLobj, 'download');
-//   } else if (onUploadProgress && method === 'POST') {
-//     onUploadProgress(XMLobj, 'upload');
-//   }
-// }
-
 class HttpRequest {
   constructor({ baseUrl, headers }) {
     this.baseUrl = baseUrl;
     this.headers = headers;
+  }
+
+  static createURL(baseUrl, url, params) {
+    const finalUrl = new URL(url, baseUrl);
+
+    for (const key in params) {
+      finalUrl.searchParams.set(key, params[key]);
+    }
+
+    return finalUrl;
+  }
+
+  static setHeaders(download, headers) {
+    for (const key in headers) {
+      download.setRequestHeader(key, headers[key]);
+    }
   }
 
   __request(method, url, config) {
@@ -58,20 +40,20 @@ class HttpRequest {
     } = config;
 
     const xhr = new XMLHttpRequest();
-    const finalUrl = createURL(this.baseUrl, url, params);
+    const finalUrl = HttpRequest.createURL(this.baseUrl, url, params);
 
     xhr.open(method, finalUrl, true);
     xhr.responseType = responseType;
 
     if (onDownloadProgress) {
-      xhr.onprogress = event => onDownloadProgress;
+      xhr.onprogress = onDownloadProgress;
     }
 
     if (onUploadProgress) {
-      xhr.upload.onprogress = event => onUploadProgress;
+      xhr.upload.onprogress = onUploadProgress;
     }
 
-    setHeaders(xhr, { ...this.headers, ...headers });
+    HttpRequest.setHeaders(xhr, { ...this.headers, ...headers });
 
     return new Promise((resolve, reject) => {
       xhr.onload = () => {
