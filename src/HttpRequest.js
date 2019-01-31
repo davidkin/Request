@@ -14,12 +14,6 @@ class HttpRequest {
     return finalUrl;
   }
 
-  static setHeaders(download, headers) {
-    for (const key in headers) {
-      download.setRequestHeader(key, headers[key]);
-    }
-  }
-
   __request(method, url, config) {
     const {
       transformResponse,
@@ -33,19 +27,15 @@ class HttpRequest {
 
     const xhr = new XMLHttpRequest();
     const finalUrl = HttpRequest.createURL(this.baseUrl, url, params);
+    const xhrHeaders = { ...this.headers, ...headers };
 
     xhr.open(method, finalUrl, true);
     xhr.responseType = responseType;
 
-    if (onDownloadProgress) {
-      xhr.onprogress = onDownloadProgress;
-    }
+    xhr.onprogress = onDownloadProgress;
+    xhr.upload.onprogress = onUploadProgress;
 
-    if (onUploadProgress) {
-      xhr.upload.onprogress = onUploadProgress;
-    }
-
-    HttpRequest.setHeaders(xhr, { ...this.headers, ...headers });
+    Object.entries(xhrHeaders).forEach((key, value) => xhr.setRequestHeader(key, headers[key]));
 
     return new Promise((resolve, reject) => {
       xhr.onload = () => {
