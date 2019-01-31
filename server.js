@@ -12,6 +12,7 @@ app.use('/HttpRequest.js', express.static(`${__dirname}/src/HttpRequest.js`));
 app.use('/requestToServer.js', express.static(`${__dirname}/src/requestToServer.js`));
 app.use('/main.js', express.static(`${__dirname}/src/main.js`));
 app.use('/helper.js', express.static(`${__dirname}/src/helper.js`));
+app.use('/showFileList.js', express.static(`${__dirname}/src/showFileList.js`));
 app.use('/files', express.static(`${__dirname}/uploads`));
 
 // default options
