@@ -64,11 +64,11 @@ class HttpRequest {
     xhr.responseType = responseType;
 
     if (onDownloadProgress) {
-      xhr.onprogress = onDownloadProgress;
+      xhr.onprogress = event => onDownloadProgress;
     }
 
     if (onUploadProgress) {
-      xhr.onprogress = onUploadProgress;
+      xhr.upload.onprogress = event => onUploadProgress;
     }
 
     setHeaders(xhr, { ...this.headers, ...headers });
