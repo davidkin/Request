@@ -20,28 +20,33 @@ function uploadToServer(request, form) {
 function downloadFromServer(request) {
   const dataOfFile = document.querySelector('.file-input').value;
   const img = document.querySelector('.img');
+  const infoText = document.querySelector('.info-text');
 
   request.get(`/files/${dataOfFile}`, {
     responseType: 'blob',
     onDownloadProgress
   })
     .then(response => {
-      document.querySelector('.info-text').innerHTML = `File ${dataOfFile} downloaded`;
+      infoText.innerHTML = `File ${dataOfFile} downloaded`;
       return response.type === 'image/jpeg' ? img.setAttribute('src', getImgUrl(response)) : downloadFile(response, dataOfFile);
     })
     .catch(e => {
-      document.querySelector('.info-text').innerHTML = `No such ${dataOfFile} file in directory - ${e}`;
+      infoText.innerHTML = `No such ${dataOfFile} file in directory - ${e}`;
     });
 }
 
 function getListOfFile(request) {
-  if (document.querySelector('.show-list').innerHTML === 'Show List') {
+  const showBlock = document.querySelector('.show-block');
+  const showList = document.querySelector('.show-list');
+
+  if (showList.innerHTML === 'Show List') {
     request.get('/list', {}).then(data => showFilesList(JSON.parse(data)));
   } else {
-    document.querySelector('.show-block').removeChild(document.querySelector('.list'));
-    document.querySelector('.show-block').style.display = 'none';
-    document.querySelector('.show-list').innerHTML = 'Show List';
-    document.querySelector('.show-list').style.color = '#fff';
-    document.querySelector('.show-list').style.borderColor = '#fff';
+    showBlock.removeChild(document.querySelector('.list'));
+    showBlock.style.display = 'none';
+
+    showList.innerHTML = 'Show List';
+    showList.style.color = '#fff';
+    showList.style.borderColor = '#fff';
   }
 }
