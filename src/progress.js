@@ -11,10 +11,8 @@ function loadBarProgress(event, bar) {
     title.innerHTML = `Request  ${Math.floor((loaded / total) * 100)}%`;
     
     setTimeout(() => {
-      if (bar === downloadBar) {
-        title.innerHTML = 'Request';
-      }
-    }, 1100);
+      title.innerHTML = 'Request';
+    }, 1000);
   }
 
   if (loaded === total) {
