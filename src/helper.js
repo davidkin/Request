@@ -20,13 +20,15 @@ function downloadFile(blob, fileName) {
   URL.revokeObjectURL(url);
 }
 
-const areElementsFunction = arrayOfFunction => arrayOfFunction.every(value => {
-  if (typeof value === 'function') {
-    return true;
-  } else {
-    throw new TypeError(`${value} isn't a function`);
-  }
-});
+function areElementsFunction (arrayOfFunction)  {
+  arrayOfFunction.every(value => {
+    if (typeof value === 'function') {
+      return true;
+    } else {
+      throw new TypeError(`${value} isn't a function`);
+    }
+  });
+}
 
 function checkForUpload() {
   const file = document.querySelector('.getFile').files;
