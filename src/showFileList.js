@@ -12,7 +12,7 @@ function showFilesList(data) {
   showList.style.color = '#de0a4e';
   showList.style.borderColor = '#de0a4e';
 
-  createListElement(data, list);
+  createListElements(data, list);
   dragAndDrop(block);
 
   block.appendChild(list);
