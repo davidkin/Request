@@ -1,11 +1,3 @@
-const elementsAreFunction = arrayOfFunction => arrayOfFunction.every(value => {
-  if (typeof value === 'function') {
-    return true;
-  } else {
-    throw new TypeError(`${value} isn't a function`);
-  }
-});
-
 class HttpRequest {
   constructor({ baseUrl, headers }) {
     this.baseUrl = baseUrl;
@@ -63,7 +55,8 @@ class HttpRequest {
           return reject(xhr);
         }
 
-        if (transformResponse && elementsAreFunction(transformResponse)) {
+        // eslint-disable-next-line no-undef
+        if (transformResponse && areElementsFunction(transformResponse)) {
           response = transformResponse.reduce((acc, func) => func(acc), response);
         }
 
