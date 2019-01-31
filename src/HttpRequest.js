@@ -125,35 +125,3 @@ class HttpRequest {
 // }
 
 // };
-
-// const request = new HttpRequest({
-//   baseUrl: 'http://localhost:8000'
-// });
-
-// request.get('/form', config)
-// .then(response => {
-//   console.log(`Well done - ${response}`);
-// })
-// .catch(e => {
-//   console.log(e);
-// });
-
-
-// reuest.get('/form', { headers: {contentType: undefined} })
-// .then(response => {
-//   console.log(response);
-// })
-// .catch(e => {
-//   console.log(e)
-// });
-
-// reuest.post('/upload', {
-//   data: form,
-// })
-// .then(response => {
-// console.log('---', `Well done - ${response}`);
-// })
-// .catch(e => {
-//   console.log(e)
-// });
-
