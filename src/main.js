@@ -29,10 +29,9 @@ document.getElementById('downloadForm').onsubmit = function(e) {
   document.querySelector('.download-button').disabled = true;
 };
 
-document.querySelector('.show-list').addEventListener('click', () => {
+document.querySelector('.show-list').click= function (e) {
   getListOfFile(request);
-});
-
+};
 
 document.querySelector('.file-input').oninput = function(e) {
   const downloadBtn = document.querySelector('.download-button');
