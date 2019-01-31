@@ -35,7 +35,7 @@ class HttpRequest {
     xhr.onprogress = onDownloadProgress;
     xhr.upload.onprogress = onUploadProgress;
 
-    Object.entries(xhrHeaders).forEach((key, value) => xhr.setRequestHeader(key, headers[key]));
+    Object.entries(xhrHeaders).forEach(([key, value]) => xhr.setRequestHeader(key, value));
 
     return new Promise((resolve, reject) => {
       xhr.onload = () => {
