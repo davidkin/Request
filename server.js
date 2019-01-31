@@ -10,6 +10,7 @@ app.use('/form', express.static(`${__dirname}/index.html`));
 app.use('/progress.js', express.static(`${__dirname}/src/progress.js`));
 app.use('/HttpRequest.js', express.static(`${__dirname}/src/HttpRequest.js`));
 app.use('/requestToServer.js', express.static(`${__dirname}/src/requestToServer.js`));
+app.use('/main.js', express.static(`${__dirname}/src/main.js`));
 app.use('/files', express.static(`${__dirname}/uploads`));
 
 // default options
