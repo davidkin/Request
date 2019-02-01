@@ -21,13 +21,11 @@ function showFilesList(data) {
 function createListElements(data, list) {
   data.forEach(element => {
     const listItem = document.createElement('li');
-    const link = document.createElement('a');
+    const link = document.createElement('span');
 
     link.innerHTML = element;
     link.style.color = '#fff';
     link.style.wordWrap = 'break-word';
-
-    link.setAttribute('href', 'javascript:void(0);');
 
     list.appendChild(listItem);
     listItem.appendChild(link);
