@@ -82,4 +82,10 @@ function dragAndDrop(elem) {
   }
 }
 
+function isShow() {
+  const showList = document.querySelector('.show-list');
+
+  return showList.innerHTML === 'Show List';  
+}
+
 checkForUpload();
