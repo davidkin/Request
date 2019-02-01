@@ -21,5 +21,5 @@ function getListOfFile(request) {
     return request.get('/list', {}).then(data => showFilesList(JSON.parse(data)));
   }
   
-  closeList();
+  closeFileList();
 }
