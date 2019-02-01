@@ -159,3 +159,26 @@ form {
   opacity: 0 !important;
   width: 0% !important;
 }
+
+.delete {
+  display: none;
+}
+
+.block {
+  display: block;
+}
+
+.white {
+  color: #fff;
+  border-color: #fff;
+}
+
+.red {
+  color: #de0a4e;
+  border-color: #de0a4e;
+}
+
+.list-text {
+  color: #fff;
+  word-wrap: break-word;
+}
