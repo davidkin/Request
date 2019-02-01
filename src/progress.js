@@ -16,11 +16,12 @@ function loadBarProgress(event, bar) {
   }
 
   if (loaded === total) {
-    bar.style.opacity = '1';
-    bar.style.width = '100%';
+    bar.classList.remove('hide')
+    bar.classList.add('show');
+
     setTimeout(() => {
-      bar.style.opacity = '0';
-      bar.style.width = '0%';
+      bar.classList.add('hide');
+      bar.classList.remove('show')
     }, 1000);
   }
 }
