@@ -18,8 +18,6 @@
       this.parentNode = parentNode;
       this.data = [];
       this.node = null;
-
-      this.create();
     }
 
     create() {
