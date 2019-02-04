@@ -13,6 +13,7 @@ app.use('/requestToDom.js', express.static(`${__dirname}/src/requestToDom.js`));
 app.use('/requestToServer.js', express.static(`${__dirname}/src/requestToServer.js`));
 app.use('/main.js', express.static(`${__dirname}/src/main.js`));
 app.use('/helper.js', express.static(`${__dirname}/src/helper.js`));
+app.use('/dragAndDrop.js', express.static(`${__dirname}/src/dragAndDrop.js`));
 app.use('/fileList.js', express.static(`${__dirname}/src/fileList.js`));
 app.use('/files', express.static(`${__dirname}/uploads`));
 
