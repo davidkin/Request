@@ -1,50 +1,94 @@
-/* eslint-disable */
+/* global  dragAndDrop, HttpRequest */
 
-function showFilesList(data) {
-  const showBlock = document.querySelector('.show-block');
-  const showList = document.querySelector('.show-list');
+(function() {
+  const request = new HttpRequest({ baseUrl: 'http://localhost:8000' });
 
-  const list = document.createElement('ul');
-  list.className = 'list';
+  function render(fileList) {
+    return `
+    <ul class="list">
+      ${fileList.length > 0
+    ? fileList.map(el => `<li class='list-text'>${el}</li>`).join('\n')
+    : 'List is empty!'}
+    </ul>
+  `;
+  }
 
-  showList.innerHTML = 'Close list';
+  class ListOfFiles {
+    constructor(parentNode) {
+      this.parentNode = parentNode;
+      this.data = [];
+      this.node = null;
 
-  showBlock.classList.remove('delete');
-  showList.classList.remove('white');
+      this.create();
+    }
 
-  showBlock.classList.add('block');
-  showList.classList.add('red');
+    create() {
+      this.loadList().then(() => this.render);
+      this.node = this.parentNode.firstElementChild;
+    }
 
-  createListElements(data, list);
-  dragAndDrop(showBlock);
+    render() {
+      this.parentNode.innerHTML = render(this.data);
+    }
 
-  showBlock.appendChild(list);
-}
+    loadList() {
+      request.get('/list', {}).then(data => (this.data = data));
+    }
 
-function createListElements(data, list) {
-  data.forEach(element => {
-    const listItem = document.createElement('li');
-    const link = document.createElement('span');
-    link.classList.add('list-text');
+    remove() {
+      this.parentNode.removeChild(this.node);
+    }
+  }
 
-    link.innerHTML = element;
+  window.ListOfFiles = ListOfFiles;
+}());
+// dragAndDrop(showBlock);
 
-    list.appendChild(listItem);
-    listItem.appendChild(link);
-  });
-}
+// function showFilesList(data) {
+//   const showBlock = document.querySelector('.show-block');
+//   const showList = document.querySelector('.show-list');
 
-function closeFileList() {
-  const showBlock = document.querySelector('.show-block');
-  const showList = document.querySelector('.show-list');
+//   const list = document.createElement('ul');
+//   list.className = 'list';
 
-  showBlock.removeChild(document.querySelector('.list'));
+//   showList.innerHTML = 'Close list';
 
-  showList.classList.remove('red');
-  showBlock.classList.remove('block');
+//   showBlock.classList.remove('delete');
+//   showList.classList.remove('white');
 
-  showBlock.classList.add('delete');
-  showList.classList.add('white');
+//   showBlock.classList.add('block');
+//   showList.classList.add('red');
 
-  showList.innerHTML = 'Show List';
-}
+//   createListElements(data, list);
+//
+
+//   showBlock.appendChild(list);
+// }
+
+// function createListElements(data, list) {
+//   data.forEach(element => {
+//     const listItem = document.createElement('li');
+//     const link = document.createElement('span');
+//     link.classList.add('list-text');
+
+//     link.innerHTML = element;
+
+//     list.appendChild(listItem);
+//     listItem.appendChild(link);
+//   });
+// }
+
+// function closeFileList() {
+//   const showBlock = document.querySelector('.show-block');
+//   const showList = document.querySelector('.show-list');
+
+//   showBlock.removeChild(document.querySelector('.list'));
+
+//   showList.classList.remove('red');
+//   showBlock.classList.remove('block');
+
+//   showBlock.classList.add('delete');
+//   showList.classList.add('white');
+
+//   showList.innerHTML = 'Show List';
+// }
