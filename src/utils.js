@@ -29,7 +29,9 @@
     });
   }
 
-  function checkForUpload(file, uploadBtn) {
+  function checkForUpload(uploadBtn) {
+    const file = document.querySelector('.getFile').files;
+
     if (file.length > 0) {
       uploadBtn.disabled = false;
     } else {

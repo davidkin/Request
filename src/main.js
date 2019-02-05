@@ -20,7 +20,6 @@ const fileList = new ListOfFiles(showBlock);
 const inputGetFile = document.querySelector('.getFile');
 const inputFile = document.querySelector('.file-input');
 const spanFileName = document.querySelector('.js-fileName');
-const file = document.querySelector('.getFile').files;
 
 const uploadButton = document.querySelector('.upload-button');
 const dowloadButton = document.querySelector('.download-button');
@@ -48,7 +47,7 @@ function showOrCloseFileList() {
 document.querySelector('.getFile').onchange = function(e) {
   spanFileName.innerHTML = e.target.value.replace(/.*\\/, '');
 
-  checkForUpload(file, uploadButton);
+  checkForUpload(uploadButton);
 };
 
 document.getElementById('uploadForm').onsubmit = function(e) {
@@ -94,4 +93,4 @@ document.querySelector('.file-input').oninput = function(e) {
   }
 };
 
-checkForUpload(file, uploadButton);
+checkForUpload(uploadButton);
