@@ -25,7 +25,7 @@ const uploadButton = document.querySelector('.upload-button');
 const dowloadButton = document.querySelector('.download-button');
 const showListButton = document.querySelector('.show-list');
 
-function showAndCloseFileList() {
+function showOrCloseFileList() {
   if (isShow()) {
     showListButton.innerHTML = 'Close list';
     showListButton.classList.toggle('active-list');
@@ -36,7 +36,6 @@ function showAndCloseFileList() {
 
   showListButton.innerHTML = 'Show List';
   showListButton.classList.toggle('active-list');
-
   showBlock.classList.toggle('block');
 
   return fileList.remove();
@@ -74,7 +73,7 @@ document.getElementById('downloadForm').onsubmit = function(e) {
 };
 
 document.querySelector('.show-list').onclick = function(e) {
-  showAndCloseFileList();
+  showOrCloseFileList();
 };
 
 document.querySelector('.file-input').oninput = function(e) {
