@@ -43,7 +43,7 @@
   function isShow() {
     const showList = document.querySelector('.show-list');
 
-    return showList.className !== 'active';
+    return !showList.classList.contains('active-list');
   }
 
   function downloadBtnIsEnable() {
