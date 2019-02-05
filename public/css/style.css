@@ -160,17 +160,8 @@ form {
   width: 0% !important;
 }
 
-.delete {
-  display: none;
-}
-
 .block {
   display: block;
-}
-
-.white {
-  color: #fff;
-  border-color: #fff;
 }
 
 .red {
