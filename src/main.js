@@ -30,8 +30,7 @@ function closeFileList() {
 
   showListButton.innerHTML = 'Show List';
 
-  showListButton.classList.toggle('red');
-  showListButton.classList.toggle('active');
+  showListButton.classList.remove('active-list');
 
   showBlock.classList.toggle('block');
 }
@@ -70,10 +69,9 @@ document.getElementById('downloadForm').onsubmit = function(e) {
 document.querySelector('.show-list').onclick = function(e) {
   if (isShow()) {
     showListButton.innerHTML = 'Close list';
-    showListButton.classList.toggle('active');
+    showListButton.classList.add('active-list');
 
     showBlock.classList.toggle('block');
-    showListButton.classList.toggle('red');
 
     return fileList.create();
   }
