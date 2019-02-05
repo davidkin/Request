@@ -29,10 +29,7 @@
     });
   }
 
-  function checkForUpload() {
-    const file = document.querySelector('.getFile').files;
-    const uploadBtn = document.querySelector('.upload-button');
-
+  function checkForUpload(file, uploadBtn) {
     if (file.length > 0) {
       uploadBtn.disabled = false;
     } else {
@@ -40,24 +37,17 @@
     }
   }
 
-  function isShow() {
-    const showList = document.querySelector('.show-list');
-
+  function isShow(showList) {
     return !showList.classList.contains('active-list');
   }
 
-  function downloadBtnIsEnable() {
-    const fileName = document.querySelector('.getFile').files[0].name;
-    const fileInput = document.querySelector('.file-input');
-    const downloadBtn = document.querySelector('.download-button');
-
+  function downloadBtnIsEnable(fileName, fileInput, downloadBtn) {
     fileInput.value = fileName;
     downloadBtn.disabled = false;
   }
 
-  function showResponse(fileName, response) {
+  function showResponse(fileName, response, infoText) {
     const img = document.querySelector('.img');
-    const infoText = document.querySelector('.info-text');
 
     infoText.innerHTML = `File ${fileName} downloaded`;
 
@@ -66,9 +56,7 @@
       : downloadFile(response, fileName);
   }
 
-  function showError(error, fileName) {
-    const infoText = document.querySelector('.info-text');
-
+  function showError(error, fileName, infoText) {
     infoText.innerHTML = `${fileName} file ${error}`;
   }
 
