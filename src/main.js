@@ -20,13 +20,16 @@ const fileList = new ListOfFiles(showBlock);
 const inputGetFile = document.querySelector('.getFile');
 const inputFile = document.querySelector('.file-input');
 const spanFileName = document.querySelector('.js-fileName');
+const file = document.querySelector('.getFile').files;
 
 const uploadButton = document.querySelector('.upload-button');
 const dowloadButton = document.querySelector('.download-button');
 const showListButton = document.querySelector('.show-list');
 
+const infoText = document.querySelector('.info-text');
+
 function showOrCloseFileList() {
-  if (isShow()) {
+  if (isShow(showListButton)) {
     showListButton.innerHTML = 'Close list';
     showListButton.classList.toggle('active-list');
     showBlock.classList.toggle('block');
@@ -41,6 +44,13 @@ function showOrCloseFileList() {
   return fileList.remove();
 }
 
+
+document.querySelector('.getFile').onchange = function(e) {
+  spanFileName.innerHTML = e.target.value.replace(/.*\\/, '');
+
+  checkForUpload(file, uploadButton);
+};
+
 document.getElementById('uploadForm').onsubmit = function(e) {
   e.preventDefault();
 
@@ -48,7 +58,7 @@ document.getElementById('uploadForm').onsubmit = function(e) {
 
   form.append('sampleFile', e.target.sampleFile.files[0]);
 
-  downloadBtnIsEnable();
+  downloadBtnIsEnable(inputGetFile.files[0].name, inputFile, dowloadButton);
 
   request.post('/upload', { data: form, onUploadProgress })
     .then(response => console.log('---', `Well done - ${response}`)) // eslint-disable-line no-console
@@ -65,8 +75,8 @@ document.getElementById('downloadForm').onsubmit = function(e) {
   const fileName = document.querySelector('.file-input').value;
 
   request.get(`/files/${fileName}`, { responseType: 'blob', onDownloadProgress })
-    .then(response => showResponse(fileName, response))
-    .catch(error => showError(error.statusText, fileName));
+    .then(response => showResponse(fileName, response, infoText))
+    .catch(error => showError(error.statusText, fileName, infoText));
 
   inputFile.value = '';
   dowloadButton.disabled = true;
@@ -84,8 +94,4 @@ document.querySelector('.file-input').oninput = function(e) {
   }
 };
 
-document.querySelector('.getFile').onchange = function(e) {
-  spanFileName.innerHTML = e.target.value.replace(/.*\\/, '');
-
-  checkForUpload();
-};
+checkForUpload(file, uploadButton);
