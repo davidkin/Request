@@ -61,7 +61,9 @@
 
     infoText.innerHTML = `File ${fileName} downloaded`;
 
-    return response.type === 'image/jpeg' ? img.setAttribute('src', getImgUrl(response)) : downloadFile(response, fileName);
+    return response.type === 'image/jpeg'
+      ? img.setAttribute('src', getImgUrl(response))
+      : downloadFile(response, fileName);
   }
 
   function showError(error, fileName) {
