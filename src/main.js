@@ -25,14 +25,21 @@ const uploadButton = document.querySelector('.upload-button');
 const dowloadButton = document.querySelector('.download-button');
 const showListButton = document.querySelector('.show-list');
 
-function closeFileList() {
-  fileList.remove();
+function showAndCloseFileList() {
+  if (isShow()) {
+    showListButton.innerHTML = 'Close list';
+    showListButton.classList.toggle('active-list');
+    showBlock.classList.toggle('block');
+
+    return fileList.create();
+  }
 
   showListButton.innerHTML = 'Show List';
-
-  showListButton.classList.remove('active-list');
+  showListButton.classList.toggle('active-list');
 
   showBlock.classList.toggle('block');
+
+  return fileList.remove();
 }
 
 document.getElementById('uploadForm').onsubmit = function(e) {
@@ -67,16 +74,7 @@ document.getElementById('downloadForm').onsubmit = function(e) {
 };
 
 document.querySelector('.show-list').onclick = function(e) {
-  if (isShow()) {
-    showListButton.innerHTML = 'Close list';
-    showListButton.classList.add('active-list');
-
-    showBlock.classList.toggle('block');
-
-    return fileList.create();
-  }
-
-  return closeFileList();
+  showAndCloseFileList();
 };
 
 document.querySelector('.file-input').oninput = function(e) {
