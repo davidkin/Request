@@ -1,16 +1,8 @@
 /* global  dragAndDrop, HttpRequest, ListOfFiles, downloadFromServer,
 onUploadProgress, onDownloadProgress, helper */
 
-const {
-  getImgUrl,
-  areElementsFunction,
-  downloadFile,
-  checkForUpload,
-  downloadBtnIsEnable,
-  isShow,
-  showResponse,
-  showError
-} = helper;
+const { getImgUrl, areElementsFunction, downloadFile, checkForUpload,
+  downloadBtnIsEnable, isShow, showResponse, showError } = helper;
 
 const showBlock = document.querySelector('.show-block');
 
