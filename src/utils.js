@@ -23,9 +23,9 @@
     return arrayOfFunction.every(value => {
       if (typeof value === 'function') {
         return true;
-      } else {
-        throw new TypeError(`${value} isn't a function`);
       }
+
+      throw new TypeError(`${value} isn't a function`);
     });
   }
 
